@@ -20,7 +20,7 @@ const Cart = () => {
     );
   };
 
-   const handleDecrease = (id) => {
+  const handleDecrease = (id) => {
     setAddCart((prev) =>
       prev.map((item) =>
         item.id === id ? { ...item, qty: (item.qty || 1) - 1 } : item
@@ -29,9 +29,9 @@ const Cart = () => {
   };
 
   const handleDelete = (id, name) => {
-    setAddCart((prev) => prev.filter ((item) => item.id !== id))
-    toast.success(`${name} successfully removed!`)
-  }
+    setAddCart((prev) => prev.filter((item) => item.id !== id));
+    toast.success(`${name} successfully removed!`);
+  };
   return (
     <>
       <aside className="fixed top-0 left-0 bg-white h-dvh w-[500px] shadow-2xl p-2">
@@ -40,33 +40,43 @@ const Cart = () => {
           <h1>₹ {totalPrice.toFixed(2)}/-</h1>
         </div>
         <ul className="h-[80vh] overflow-y-scroll flex flex-col gap-3 px-2">
-          {addCart && addCart.map((item, idx) => (
-            <li key={idx} className="flex items-center gap-5">
-              <figure>
-                <img src={item?.images[0]?.url} alt="" />
-              </figure>
-              <div className="flex-1 flex flex-col gap-3">
-                <h1 className="line-clamp-1">{item.name}</h1>
-                <div className="flex items-center gap-5">
-                  <button onClick={() => handleIncrease(item.id)} className="outline w-5 rounded text-lime-500 hover:bg-lime-500 hover:text-white">
-                    +
-                  </button>
-                  <span>0</span>
-                  <button onClick={() => handleDecrease(item.id)} className="outline w-5 rounded text-red-500 hover:bg-red-500 hover:text-white">
-                    -
+          {addCart &&
+            addCart.map((item, idx) => (
+              <li key={idx} className="flex items-center gap-5">
+                <figure className="w-30">
+                  <img src={item?.images[0]?.url} alt="" />
+                </figure>
+                <div className="flex-1 flex flex-col gap-3">
+                  <h1 className="line-clamp-1">{item.name}</h1>
+                  <div className="flex items-center gap-5">
+                    <button
+                      onClick={() => handleIncrease(item.id)}
+                      className="outline w-5 rounded text-lime-500 hover:bg-lime-500 hover:text-white"
+                    >
+                      +
+                    </button>
+                    <span>{item.qty || 1}</span>
+                    <button
+                      onClick={() => handleDecrease(item.id)}
+                      className="outline w-5 rounded text-red-500 hover:bg-red-500 hover:text-white"
+                    >
+                      -
+                    </button>
+                  </div>
+                </div>
+                <div>
+                  <p>₹ {(item.price * (item.qty || 1) * 90).toFixed(2)}/-</p>
+                </div>
+                <div>
+                  <button
+                    onClick={() => handleDelete(item.id, item.name)}
+                    className="outline rounded bg-red-500 text-white hover:text-red-500 hover:bg-white"
+                  >
+                    Remove
                   </button>
                 </div>
-              </div>
-              <div>
-                <p>₹ 17000/-</p>
-              </div>
-              <div>
-                <button onClick={() => handleDelete(item.id, item.name)} className="outline rounded bg-red-500 text-white hover:text-red-500 hover:bg-white">
-                  Remove
-                </button>
-              </div>
-            </li>
-          ))}
+              </li>
+            ))}
         </ul>
         <button
           onClick={handleNavigate}
